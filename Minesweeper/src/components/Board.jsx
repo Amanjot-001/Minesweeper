@@ -11,6 +11,7 @@ export default function Board({rows, cols, bombs}) {
             for(let j=0; j<cols; j++) {
                 row.push(
                     <Cell
+                        key={`${i}-${j}`}
                         showed={false}
                         x={i}
                         y={j}
