@@ -10,6 +10,67 @@ export default function Board({rows, cols, bombs}) {
         const locations = generateBombLocations(rows, cols, bombs);
         const gridValues = calculateGridValues(rows, cols, locations);
 
+        const onCellClick = (x, y) => {
+            revealEmptyCells(x, y);
+        };
+
+        const revealEmptyCells = (row, col) => {
+            const neighborCells = [
+                [-1, 0],
+                [1, 0],
+                [0, -1],
+                [0, 1],
+                [-1, -1],
+                [-1, 1],
+                [1, -1],
+                [1, 1],
+            ];
+
+            neighborCells.forEach(([dx, dy]) => {
+                const newRow = row + dx;
+                const newCol = col + dy;
+        
+                if(
+                    newRow >=0 &&
+                    newRow < rows && 
+                    newCol >=0 &&
+                    newCol < cols &&
+                    !grid[newRow].props.children[newCol].props.showed
+                ) {
+                    if(gridValues[newRow][newCol].value === 0) {
+                        grid[newRow].props.children[newCol] = (
+                            <Cell
+                              key={`${row}-${col}`}
+                              showed={true}
+                              x={row}
+                              y={col}
+                              flagged={false}
+                              value={gridValues[row][col]}
+                              hasBomb={false}
+                              onCellClick={onCellClick}
+                            />
+                        );
+                        console.log('revealed')
+                        revealEmptyCells(newRow, newCol);
+                    }
+                    else {
+                        grid[newRow].props.children[newCol] = (
+                            <Cell
+                              key={`${row}-${col}`}
+                              showed={true}
+                              x={row}
+                              y={col}
+                              flagged={false}
+                              value={gridValues[row][col]}
+                              hasBomb={false}
+                              onCellClick={onCellClick}
+                            />
+                        );
+                    }
+                }
+            })
+        }
+
         for(let i=0; i<rows; i++) {
             const row = [];
 
@@ -26,6 +87,7 @@ export default function Board({rows, cols, bombs}) {
                         flagged={false}
                         value={gridValues[i][j]}
                         hasBomb={hasBomb}
+                        onCellClick={onCellClick}
                     />
                 );
             }
@@ -35,7 +97,7 @@ export default function Board({rows, cols, bombs}) {
                 </div>
             );
         }
-
+        console.log(grid)
         return grid;
     }
 

@@ -3,15 +3,15 @@ import { useState } from 'react'
 import '../styles/cell.css'
 import revealEmptyCells from '../utils/revealEmptyCells';
 
-export default function Cell({showed, x, y, flagged, value, hasBomb}) {
+export default function Cell({ showed, x, y, flagged, value, hasBomb, onCellClick }) {
     const [clicked, setClicked] = useState(false);
 
     const handleCellClick = () => {
         setClicked(true);
-        showed = true;
 
-        if(value === 0)
-            revealEmptyCells(x, y);
+        if(value === 0) {
+            onCellClick(x, y);
+        }
     }
     return (
         <div className="cell" onClick={handleCellClick}>
@@ -26,5 +26,9 @@ Cell.propTypes = {
     y: PropTypes.number,
     flagged: PropTypes.bool,
     value: PropTypes.number,
-    hasBomb: PropTypes.bool
+    hasBomb: PropTypes.bool,
+    onCellClick: PropTypes.func,
+    gridValues: PropTypes.arrayOf(PropTypes.array),
+    rows: PropTypes.number,
+    cols: PropTypes.number
 }
