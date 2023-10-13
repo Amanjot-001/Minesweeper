@@ -2,4 +2,6 @@
     width: 2rem;
     height: 2rem;
     background-color: wheat;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
 }

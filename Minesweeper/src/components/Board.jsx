@@ -1,14 +1,35 @@
 import Cell from "./Cell"
+import '../styles/grid.css'
 
-export default function Board({size, bombs}) {
+export default function Board({rows, cols, bombs}) {
     const generateGrid = () => {
-        for(let i=0; i<size; i++) {
-            for(let j=0; j<size; j++){
-                return <Cell/>
+        const grid = [];
+
+        for(let i=0; i<rows; i++) {
+            const row = [];
+
+            for(let j=0; j<cols; j++) {
+                row.push(
+                    <Cell
+                        showed={false}
+                        x={i}
+                        y={j}
+                        flagged={false}
+                        value={0}
+                    />
+                )
             }
+            grid.push(
+                <div key={i} className="row">
+                    {row}
+                </div>
+            );
         }
+
+        return grid;
     }
+
     return (
-        generateGrid
+        <div className="grid">{generateGrid()}</div>
     )
 }
