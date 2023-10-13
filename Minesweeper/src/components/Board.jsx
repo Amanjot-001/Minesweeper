@@ -1,11 +1,13 @@
 import Cell from "./Cell"
 import '../styles/grid.css'
 import generateBombLocations from "../utils/generateBombLocations";
+import calculateGridValues from "../utils/calculateGridValues"
 
 export default function Board({rows, cols, bombs}) {
     const generateGrid = () => {
         const grid = [];
         const locations = generateBombLocations(rows, cols, bombs);
+        const gridValues = calculateGridValues(rows, cols, locations);
 
         for(let i=0; i<rows; i++) {
             const row = [];
@@ -21,7 +23,7 @@ export default function Board({rows, cols, bombs}) {
                         x={i}
                         y={j}
                         flagged={false}
-                        value={0}
+                        value={gridValues[i][j]}
                         hasBomb={hasBomb}
                     />
                 );

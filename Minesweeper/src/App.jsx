@@ -1,5 +1,4 @@
 import './App.css'
-import Cell from './components/Cell'
 import Board from './components/Board'
 
 function App() {
