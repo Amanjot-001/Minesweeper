@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import '../styles/cell.css'
+import revealEmptyCells from '../utils/revealEmptyCells';
 
 export default function Cell({showed, x, y, flagged, value, hasBomb}) {
     const [clicked, setClicked] = useState(false);
@@ -8,6 +9,9 @@ export default function Cell({showed, x, y, flagged, value, hasBomb}) {
     const handleCellClick = () => {
         setClicked(true);
         showed = true;
+
+        if(value === 0)
+            revealEmptyCells(x, y);
     }
     return (
         <div className="cell" onClick={handleCellClick}>
