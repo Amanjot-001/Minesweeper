@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Cell from "./Cell"
 import '../styles/grid.css'
 import generateBombLocations from "../utils/generateBombLocations";
@@ -41,4 +42,10 @@ export default function Board({rows, cols, bombs}) {
     return (
         <div className="grid">{generateGrid()}</div>
     )
+}
+
+Board.propTypes = {
+    rows: PropTypes.number,
+    cols: PropTypes.number,
+    bombs: PropTypes.number
 }
