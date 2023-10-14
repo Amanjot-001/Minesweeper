@@ -47,21 +47,23 @@ export default function Board({rows, cols, bombs}) {
 
         setCellStates((prevCellStates) => {
             let updatedCellStates = [...prevCellStates];
-            updatedCellStates[x][y] = true;
+            // updatedCellStates[x][y] = true;
 
             neighborCells.forEach(([dx, dy]) => {
                 const newRow = x + dx;
                 const newCol = y + dy;
+                updatedCellStates[x][y] = true;
 
                 if(
                     newRow >=0 &&
                     newRow < rows && 
                     newCol >=0 &&
                     newCol < cols &&
-                    !updatedCellStates[newRow][newCol] &&
-                    gridValues[newRow][newCol] === 0
+                    !updatedCellStates[newRow][newCol]
                 ) {
-                    revealEmptyCells(newRow, newCol);
+                    updatedCellStates[newRow][newCol] = true;
+                    if(gridValues[newRow][newCol] === 0)
+                        revealEmptyCells(newRow, newCol);
                 }
             });
 
