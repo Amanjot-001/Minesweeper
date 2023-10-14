@@ -2,17 +2,26 @@ import PropTypes from 'prop-types'
 import { useState } from 'react'
 import '../styles/cell.css'
 
-export default function Cell({ showed, x, y, flagged, value, hasBomb, onCellClick }) {
+export default function Cell({ showed, x, y, value, hasBomb, onCellClick }) {
     const [clicked, setClicked] = useState(false);
+    const [flagged, setFlagged] = useState(false);
 
-    const handleCellClick = () => {
-        setClicked(true);
-        onCellClick(x, y);
+    const handleLeftClick = () => {
+        if(!flagged) {
+            setClicked(true);
+            onCellClick(x, y);
+        }
     }
-    
+
+    const handleRightClick = (e) => {
+        e.preventDefault();
+        if(!clicked && !showed)
+            setFlagged(true);
+    }
+
     return (
-        <div className="cell" onClick={handleCellClick}>
-            {showed || clicked ? (hasBomb ? 'X' : value) : null }
+        <div className="cell" onClick={handleLeftClick} onContextMenu={handleRightClick}>
+            {(showed || clicked) ? ((hasBomb ? 'X' : value)) : (flagged ? 'F' : null) }
         </div>
     )
 }
@@ -21,7 +30,6 @@ Cell.propTypes = {
     showed: PropTypes.bool,
     x: PropTypes.number,
     y: PropTypes.number,
-    flagged: PropTypes.bool,
     value: PropTypes.number,
     hasBomb: PropTypes.bool,
     onCellClick: PropTypes.func

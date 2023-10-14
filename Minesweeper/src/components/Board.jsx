@@ -42,7 +42,6 @@ export default function Board({rows, cols, bombs}) {
             if(gridValues[x][y] === 0)
                 revealEmptyCells(x, y);
         }
-        return;
     };
 
     const revealEmptyCells = (x, y) => {
@@ -81,8 +80,6 @@ export default function Board({rows, cols, bombs}) {
 
             return updatedCellStates;
         });
-
-        return;
     }
     
     return (
@@ -95,7 +92,6 @@ export default function Board({rows, cols, bombs}) {
                             showed={showed}
                             x={rowIndex}
                             y={colIndex}
-                            flagged={false}
                             value={gridValues[rowIndex][colIndex]}
                             hasBomb={locations.some(([x, y]) => x === rowIndex && y === colIndex)}
                             onCellClick={onCellClick}
