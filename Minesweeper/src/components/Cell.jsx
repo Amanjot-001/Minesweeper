@@ -7,11 +7,9 @@ export default function Cell({ showed, x, y, flagged, value, hasBomb, onCellClic
 
     const handleCellClick = () => {
         setClicked(true);
-
-        if(value === 0) {
-            onCellClick(x, y);
-        }
+        onCellClick(x, y);
     }
+    
     return (
         <div className="cell" onClick={handleCellClick}>
             {showed || clicked ? (hasBomb ? 'X' : value) : null }

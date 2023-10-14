@@ -8,6 +8,7 @@ import calculateGridValues from "../utils/calculateGridValues"
 export default function Board({rows, cols, bombs}) {
     const [locations, setLocations] = useState(generateBombLocations(rows, cols, bombs));
     const [gridValues, setGridValues] = useState(calculateGridValues(rows, cols, locations));
+    const [firstClicked, setFirstClicked] = useState(false);
 
     useEffect(() => {
         const bombLocations = generateBombLocations(rows, cols, bombs);
@@ -23,14 +24,25 @@ export default function Board({rows, cols, bombs}) {
         for (let i = 0; i < rows; i++) {
           initialStates.push(Array(cols).fill(false));
         }
-        // console.log(initialStates)
         return initialStates;
     });
 
     const onCellClick = (x, y) => {
         if (cellStates[x][y] === false) {
-            revealEmptyCells(x, y);
+            if(!firstClicked) {
+                if(locations.some(([dx, dy]) => dx===x && dy===y)) {
+                    const newBombLocations = generateBombLocations(rows, cols, bombs);
+                    setLocations(newBombLocations);
+                    const newValues = calculateGridValues(rows, cols, newBombLocations);
+                    setGridValues(newValues);
+                }
+                setFirstClicked(true);
+            }
+
+            if(gridValues[x][y] === 0)
+                revealEmptyCells(x, y);
         }
+        return;
     };
 
     const revealEmptyCells = (x, y) => {
@@ -69,6 +81,8 @@ export default function Board({rows, cols, bombs}) {
 
             return updatedCellStates;
         });
+
+        return;
     }
     
     return (
